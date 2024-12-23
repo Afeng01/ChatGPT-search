@@ -11,11 +11,12 @@
     "firefox >= 112"
   ],
   "scripts": {
+    "prebuild": "node scripts/updateManifest.js",
     "build:common": "  rm -rf build   &&              webpack --config webpack.config.js && cp -r static/. staticCh/. build/unpacked   && find build   -name '.DS_Store' -type f -delete",
     "build:commonFf": "rm -rf buildFf && FIREFOX=true webpack --config webpack.config.js && cp -r static/. staticFf/. buildFf/unpacked && find buildFf -name '.DS_Store' -type f -delete",
-    "build:dev": "    cross-env NODE_ENV=development npm run build:common",
+    "build:dev": "npm run prebuild && npm run build:common",
     "build:devFf": "  export NODE_ENV=development && npm run build:commonFf",
-    "build:prod": "   cross-env NODE_ENV=production && npm run build:common && cd build/unpacked",
+    "build:prod": "npm run prebuild && npm run build:common && cd build/unpacked",
     "build:prodFf": " export NODE_ENV=production && npm run build:commonFf && cd buildFf/unpacked && zip -r ../packed.zip .",
     "build:prodFff": "npm run build:prodFf && rm -rf zed && mkdir -p zed/unpacked && cp -r src static staticCh staticFf tools .babelrc package-lock.json package.json postcss.config.js tsconfig.json webpack.config.js zed/unpacked && (cd zed/unpacked && zip -r ../packed.zip .) && mv zed/packed.zip buildFf/source.zip && rm -rf zed"
   },

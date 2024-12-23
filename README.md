@@ -144,6 +144,75 @@ npm run build:prod
 2. 已安装cross-env包
 3. 已修改package.json中的构建脚本使用cross-env
 
+### 网站配置管理
+为了便于添加新的ChatGPT镜像站点支持，本项目使用配置文件管理支持的网站列表。
+
+#### 配置文件结构
+1. 在`config/sites.js`中管理支持的网站列表：
+```javascript
+module.exports = {
+  sites: [
+    {
+      name: "ChatGPT Official",
+      domain: "chatgpt.com",
+      urlPattern: "https://*.chatgpt.com/*"
+    },
+    {
+      name: "ChatGPTS Pro",
+      domain: "chatgpts.pro",
+      urlPattern: "https://*.chatgpts.pro/*"
+    }
+    // 在这里添加新的镜像站点...
+  ]
+};
+```
+
+2. `scripts/updateManifest.js`负责在构建时更新manifest文件：
+```javascript
+const fs = require('fs');
+const sites = require('../config/sites.js');
+
+function updateManifest(manifestPath) {
+  const manifest = require(manifestPath);
+  manifest.host_permissions = sites.sites.map(site => site.urlPattern);
+  manifest.content_scripts[0].matches = sites.sites.map(site => site.urlPattern);
+  fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+}
+
+updateManifest('../staticCh/manifest.json');
+updateManifest('../staticFf/manifest.json');
+```
+
+#### 添加新网站支持
+1. 在`config/sites.js`中添加新站点配置：
+```javascript
+{
+  name: "网站名称",
+  domain: "example.com",
+  urlPattern: "https://*.example.com/*"
+}
+```
+
+2. 重新构建项目：
+```bash
+npm run build:dev  # 开发环境
+# 或
+npm run build:prod # 生产环境
+```
+
+构建过程会自动更新manifest文件中的域名权限和内容脚本匹配规则。
+
+#### 配置项说明
+- `name`: 网站名称（用于标识）
+- `domain`: 网站域名（不含协议和路径）
+- `urlPattern`: URL匹配模式（支持通配符）
+
+注意：添加新网站后，请确保：
+1. 网站配置格式正确
+2. 重新构建项目
+3. 测试新添加的网站是否正常工作
+4. 更新文档中支持的网站列表
+
 ## 更新日志
 - 添加对ChatGPTS.pro的支持
 - 优化安装方式，提供永久安装包
