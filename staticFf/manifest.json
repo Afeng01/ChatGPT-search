@@ -12,7 +12,9 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["main.js"],
+      "resources": [
+        "main.js"
+      ],
       "matches": [
         "https://chatgpt.com/*",
         "https://chatgpts.com/*"
@@ -22,22 +24,32 @@
   "default_locale": "en",
   "host_permissions": [
     "https://*.chatgpt.com/*",
-    "https://*.chatgpts.com/*"
+    "https://*.chatgpts.pro/*"
   ],
-  "permissions": ["storage", "unlimitedStorage", "webRequest", "scripting"],
-  "icons": { 
-    "128": "128.png" 
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "webRequest",
+    "scripting"
+  ],
+  "icons": {
+    "128": "128.png"
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
   "content_scripts": [
     {
       "matches": [
-        "https://chatgpt.com/*",
-        "https://chatgpts.com/*"
+        "https://*.chatgpt.com/*",
+        "https://*.chatgpts.pro/*"
       ],
-      "js": ["preamble.js", "mainLoader.js"],
+      "js": [
+        "preamble.js",
+        "mainLoader.js"
+      ],
       "run_at": "document_start"
     }
   ]

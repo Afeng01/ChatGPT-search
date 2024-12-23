@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "prebuild": "node scripts/updateManifest.js",
-    "build:common": "  rm -rf build   &&              webpack --config webpack.config.js && cp -r static/. staticCh/. build/unpacked   && find build   -name '.DS_Store' -type f -delete",
+    "build:common": "rimraf build && webpack --config webpack.config.js && xcopy /E /I /Y static\\. build\\unpacked\\ && xcopy /E /I /Y staticCh\\. build\\unpacked\\",
     "build:commonFf": "rm -rf buildFf && FIREFOX=true webpack --config webpack.config.js && cp -r static/. staticFf/. buildFf/unpacked && find buildFf -name '.DS_Store' -type f -delete",
     "build:dev": "npm run prebuild && npm run build:common",
     "build:devFf": "  export NODE_ENV=development && npm run build:commonFf",
@@ -50,6 +50,7 @@
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "rimraf": "^6.0.1"
   }
 }

@@ -9,9 +9,14 @@
     "https://*.chatgpt.com/*",
     "https://*.chatgpts.pro/*"
   ],
-  "permissions": ["storage", "unlimitedStorage", "webRequest", "scripting"],
-  "icons": { 
-    "128": "128.png" 
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "webRequest",
+    "scripting"
+  ],
+  "icons": {
+    "128": "128.png"
   },
   "background": {
     "service_worker": "background.js",
@@ -25,10 +30,12 @@
   "content_scripts": [
     {
       "matches": [
-        "https://chatgpt.com/*",
-        "https://chatgpts.pro/*"
+        "https://*.chatgpt.com/*",
+        "https://*.chatgpts.pro/*"
       ],
-      "js": ["preamble.js"],
+      "js": [
+        "preamble.js"
+      ],
       "run_at": "document_start"
     },
     {
@@ -36,7 +43,9 @@
         "https://chatgpt.com/*",
         "https://chatgpts.pro/*"
       ],
-      "js": ["main.js"],
+      "js": [
+        "main.js"
+      ],
       "world": "MAIN",
       "run_at": "document_start"
     }
