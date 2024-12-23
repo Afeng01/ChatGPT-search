@@ -1,0 +1,44 @@
+{
+  "name": "__MSG_appName__",
+  "short_name": "GPT Search",
+  "version": "0.0.980",
+  "description": "__MSG_appDesc__",
+  "manifest_version": 3,
+  "default_locale": "en",
+  "host_permissions": [
+    "https://*.chatgpt.com/*",
+    "https://*.chatgpts.pro/*"
+  ],
+  "permissions": ["storage", "unlimitedStorage", "webRequest", "scripting"],
+  "icons": { 
+    "128": "128.png" 
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {},
+  "options_ui": {
+    "open_in_tab": true,
+    "page": "options.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chatgpts.pro/*"
+      ],
+      "js": ["preamble.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chatgpts.pro/*"
+      ],
+      "js": ["main.js"],
+      "world": "MAIN",
+      "run_at": "document_start"
+    }
+  ]
+}
